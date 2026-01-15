@@ -1,0 +1,46 @@
+<view class="container">
+  <block wx:if="{{!currentTask}}">
+    <view class="title">今日作业已结束</view>
+    <button class="big-btn" bindtap="goToReport">查看今日报告</button>
+  </block>
+
+  <block wx:else>
+    <view class="title">当前作业</view>
+    
+    <view class="card">
+      <view class="item-title">{{currentTask.name}}</view>
+      <view class="item-sub">预计 {{currentTask.expectedMinutes}} 分钟</view>
+    </view>
+
+    <view class="timer-container">
+      <canvas type="2d" id="progressCanvas" class="progress-canvas"></canvas>
+      <view class="timer-text">
+        <text class="timer-value">{{focusMinutes}}</text>
+        <text class="timer-unit">分钟</text>
+      </view>
+    </view>
+
+    <view class="metrics">
+      <view class="metric-box">
+        <view class="metric-label">专注时长</view>
+        <view class="metric-value">{{focusMinutes}} 分钟</view>
+      </view>
+      <view class="metric-box">
+        <view class="metric-label">中断次数</view>
+        <view class="metric-value">{{interruptions}}</view>
+      </view>
+      <view class="metric-box">
+        <view class="metric-label">完成进度</view>
+        <view class="metric-value">{{completedCount}}/{{totalCount}}</view>
+      </view>
+    </view>
+
+    <button class="big-btn {{isFocusing ? 'btn-pause' : 'btn-start'}}" bindtap="toggleFocus">
+      {{isFocusing ? '暂停（计入中断）' : '开始专注'}}
+    </button>
+
+    <button class="big-btn btn-finish" bindtap="completeCurrent">完成当前项</button>
+    <button class="big-btn btn-next" bindtap="nextTask">下一项</button>
+    <button class="big-btn btn-end" bindtap="goToReport">结束当日作业</button>
+  </block>
+</view>

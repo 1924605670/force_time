@@ -1,30 +1,42 @@
 {
-  "expo": {
-    "name": "fengrossment",
-    "slug": "fengrossment",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+  "pages": [
+    "pages/setup/index",
+    "pages/focus/index",
+    "pages/report/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "专注作业",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#111111",
+    "selectedColor": "#000000",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/setup/index",
+        "text": "作业设定",
+        "iconPath": "assets/icon.png",
+        "selectedIconPath": "assets/icon.png"
       },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+      {
+        "pagePath": "pages/focus/index",
+        "text": "专注执行",
+        "iconPath": "assets/icon.png",
+        "selectedIconPath": "assets/icon.png"
+      },
+      {
+        "pagePath": "pages/report/index",
+        "text": "家长报告",
+        "iconPath": "assets/icon.png",
+        "selectedIconPath": "assets/icon.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
 }

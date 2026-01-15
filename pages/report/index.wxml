@@ -1,0 +1,44 @@
+<view class="container">
+  <view class="title">家长报告</view>
+  <view class="date-text">{{date}}</view>
+
+  <view class="metrics-card">
+    <view class="metric-row">
+      <view class="metric-label">今日总专注时长</view>
+      <view class="metric-value">{{totals.minutes}} 分钟</view>
+    </view>
+    <view class="metric-row">
+      <view class="metric-label">今日中断次数</view>
+      <view class="metric-value">{{totals.interrupts}}</view>
+    </view>
+    <view class="metric-row">
+      <view class="metric-label">作业完成率</view>
+      <view class="metric-value">{{totals.completion}}</view>
+    </view>
+  </view>
+
+  <block wx:if="{{week}}">
+    <view class="week-card">
+      <view class="week-title">按周汇总（{{week.startDate}}–{{week.endDate}}）</view>
+      <view class="metric-row">
+        <view class="metric-label">平均专注时长</view>
+        <view class="metric-value">{{week.averageFocusMinutes}} 分钟</view>
+      </view>
+      <view class="metric-row">
+        <view class="metric-label">平均中断次数</view>
+        <view class="metric-value">{{week.averageInterruptions}}</view>
+      </view>
+    </view>
+  </block>
+
+  <view class="subtitle">查看其他日期</view>
+  <scroll-view scroll-x="true" class="day-scroll">
+    <view class="day-list">
+      <block wx:for="{{days}}" wx:key="*this">
+        <view class="day-chip {{item === date ? 'day-chip-active' : ''}}" bindtap="changeDate" data-date="{{item}}">
+          <text class="day-text {{item === date ? 'day-text-active' : ''}}">{{item}}</text>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+</view>

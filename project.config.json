@@ -1,0 +1,55 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "fengrossment-mini",
+  "description": "小学生作业专注App",
+  "setting": {
+    "urlCheck": false,
+    "es6": false,
+    "postcss": true,
+    "minified": true,
+    "uglifyFileName": false,
+    "enhance": false,
+    "packNpmRelationList": [],
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useCompilerPlugins": false,
+    "minifyWXML": true,
+    "compileWorklet": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": true,
+    "packNpmRelationList": [
+      {
+        "packageJsonPath": "./package.json",
+        "miniprogramNpmDistDir": "./"
+      }
+    ],
+    "minifyWXSS": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.13.2",
+  "srcMiniprogramRoot": "./",
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "file",
+        "value": "._*"
+      },
+      {
+        "type": "folder",
+        "value": "._*"
+      }
+    ],
+    "include": []
+  },
+  "appid": "wx30321379334ec662",
+  "editorSetting": {}
+}

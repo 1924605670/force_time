@@ -1,0 +1,44 @@
+<view class="container">
+  <view class="header">
+    <view class="title">今日作业清单</view>
+    <view class="streak-badge" wx:if="{{streak > 0}}">
+      <text class="streak-icon">🔥</text>
+      <text class="streak-text">连续 {{streak}} 天</text>
+    </view>
+  </view>
+
+  <view class="total-time" wx:if="{{tasks.length > 0}}">
+    <text>总预计时长：{{totalMinutes}} 分钟</text>
+  </view>
+
+  <view class="form">
+    <view class="input-row">
+      <input class="input-box flex-1" placeholder="作业名称（≤20字）" maxlength="20" value="{{name}}" bindinput="onNameInput" />
+      <view class="icon-btn" bindtap="chooseImage">
+        <text>📸</text>
+      </view>
+    </view>
+    <input class="input-box" placeholder="预计时长（5–120）" type="number" value="{{minutes}}" bindinput="onMinutesInput" />
+    <button class="big-btn {{!canAdd ? 'big-btn-disabled' : ''}}" bindtap="addTask" disabled="{{!canAdd}}" loading="{{isAnalyzing}}">
+      {{isAnalyzing ? '正在分析图片...' : '添加'}}
+    </button>
+  </view>
+
+  <view class="list">
+    <block wx:for="{{tasks}}" wx:key="id">
+      <view class="task-item">
+        <view class="task-info">
+          <view class="task-name">{{item.name}}</view>
+          <view class="task-sub">预计 {{item.expectedMinutes}} 分钟</view>
+        </view>
+        <view class="actions">
+          <view class="btn-small" bindtap="moveUp" data-index="{{index}}" wx:if="{{index > 0}}">↑</view>
+          <view class="btn-small" bindtap="moveDown" data-index="{{index}}" wx:if="{{index < tasks.length - 1}}">↓</view>
+          <view class="btn-delete" bindtap="removeTask" data-id="{{item.id}}">删除</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <button class="big-btn" style="margin-top: 40rpx;" bindtap="startFocus" disabled="{{tasks.length === 0}}">开始专注</button>
+</view>
