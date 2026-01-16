@@ -4,12 +4,17 @@
   "description": "小学生作业专注App",
   "setting": {
     "urlCheck": false,
-    "es6": false,
+    "es6": true,
     "postcss": true,
     "minified": true,
     "uglifyFileName": false,
-    "enhance": false,
-    "packNpmRelationList": [],
+    "enhance": true,
+    "packNpmRelationList": [
+      {
+        "packageJsonPath": "./package.json",
+        "miniprogramNpmDistDir": "./"
+      }
+    ],
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -20,12 +25,6 @@
     "compileWorklet": false,
     "uploadWithSourceMap": true,
     "packNpmManually": true,
-    "packNpmRelationList": [
-      {
-        "packageJsonPath": "./package.json",
-        "miniprogramNpmDistDir": "./"
-      }
-    ],
     "minifyWXSS": true,
     "localPlugins": false,
     "disableUseStrict": false,
@@ -40,12 +39,12 @@
   "packOptions": {
     "ignore": [
       {
-        "type": "file",
-        "value": "._*"
+        "type": "regexp",
+        "value": "\\._.*"
       },
       {
-        "type": "folder",
-        "value": "._*"
+        "type": "regexp",
+        "value": "\\.DS_Store"
       }
     ],
     "include": []

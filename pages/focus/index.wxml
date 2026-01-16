@@ -1,46 +1,67 @@
-<view class="container">
+<view class="container focus-container">
+  <!-- 结束状态 -->
   <block wx:if="{{!currentTask}}">
-    <view class="title">今日作业已结束</view>
-    <button class="big-btn" bindtap="goToReport">查看今日报告</button>
+    <view class="finish-state">
+      <view class="finish-icon">🎉</view>
+      <view class="finish-title">太棒了！</view>
+      <view class="finish-desc">今日作业挑战已全部完成</view>
+      <button class="btn btn-primary btn-lg mt-40" bindtap="goToReport">查看今日战绩</button>
+    </view>
   </block>
 
+  <!-- 专注状态 -->
   <block wx:else>
-    <view class="title">当前作业</view>
-    
-    <view class="card">
-      <view class="item-title">{{currentTask.name}}</view>
-      <view class="item-sub">预计 {{currentTask.expectedMinutes}} 分钟</view>
+    <view class="glass-card task-info-card">
+      <view class="task-label">当前任务 ({{currentIndex + 1}}/{{totalCount}})</view>
+      <view class="task-title">{{currentTask.name}}</view>
+      <view class="task-target">目标：{{currentTask.expectedMinutes}} 分钟</view>
     </view>
 
-    <view class="timer-container">
-      <canvas type="2d" id="progressCanvas" class="progress-canvas"></canvas>
-      <view class="timer-text">
-        <text class="timer-value">{{focusMinutes}}</text>
-        <text class="timer-unit">分钟</text>
-      </view>
-    </view>
-
-    <view class="metrics">
-      <view class="metric-box">
-        <view class="metric-label">专注时长</view>
-        <view class="metric-value">{{focusMinutes}} 分钟</view>
-      </view>
-      <view class="metric-box">
-        <view class="metric-label">中断次数</view>
-        <view class="metric-value">{{interruptions}}</view>
-      </view>
-      <view class="metric-box">
-        <view class="metric-label">完成进度</view>
-        <view class="metric-value">{{completedCount}}/{{totalCount}}</view>
+    <view class="timer-section">
+      <view class="timer-ring">
+        <canvas type="2d" id="progressCanvas" class="progress-canvas"></canvas>
+        <view class="timer-content">
+          <view class="timer-val">{{focusMinutes}}</view>
+          <view class="timer-unit">分</view>
+        </view>
       </view>
     </view>
 
-    <button class="big-btn {{isFocusing ? 'btn-pause' : 'btn-start'}}" bindtap="toggleFocus">
-      {{isFocusing ? '暂停（计入中断）' : '开始专注'}}
-    </button>
+    <!-- 状态指标 -->
+    <view class="metrics-row">
+      <view class="glass-card metric-item">
+        <text class="metric-icon">⚡️</text>
+        <view class="metric-text">
+          <text class="val">{{interruptions}}</text>
+          <text class="label">中断</text>
+        </view>
+      </view>
+      <view class="glass-card metric-item">
+        <text class="metric-icon">📊</text>
+        <view class="metric-text">
+          <text class="val">{{completedCount}}/{{totalCount}}</text>
+          <text class="label">进度</text>
+        </view>
+      </view>
+    </view>
 
-    <button class="big-btn btn-finish" bindtap="completeCurrent">完成当前项</button>
-    <button class="big-btn btn-next" bindtap="nextTask">下一项</button>
-    <button class="big-btn btn-end" bindtap="goToReport">结束当日作业</button>
+    <!-- 操作区 -->
+    <view class="action-area">
+      <button class="btn btn-main {{isFocusing ? 'pause' : 'start'}}" bindtap="toggleFocus">
+        <text class="btn-icon">{{isFocusing ? '⏸' : '▶'}}</text>
+        <text>{{isFocusing ? '暂停计时' : '开始专注'}}</text>
+      </button>
+
+      <view class="sub-actions">
+        <view class="sub-btn finish glass-card" bindtap="completeCurrent">
+          <text>✅ 完成</text>
+        </view>
+        <view class="sub-btn skip glass-card" bindtap="nextTask">
+          <text>⏭ 跳过</text>
+        </view>
+      </view>
+      
+      <view class="text-btn" bindtap="goToReport">结束并查看报告</view>
+    </view>
   </block>
 </view>

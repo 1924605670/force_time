@@ -1,0 +1,149 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.role-badge {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: var(--primary-color);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  padding: 40rpx;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 30rpx;
+  border: 4rpx solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8rpx 16rpx rgba(0,0,0,0.1);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.nickname {
+  font-size: 36rpx;
+  font-weight: 700;
+  margin-bottom: 10rpx;
+  color: var(--text-main);
+}
+
+.current-role {
+  font-size: 26rpx;
+  color: var(--text-sub);
+}
+
+.section-title {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  padding-left: 10rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+  margin-bottom: 40rpx;
+}
+
+.role-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30rpx 10rpx;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.role-item.active {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: var(--primary-color);
+  box-shadow: 0 10rpx 20rpx rgba(127, 90, 240, 0.15);
+}
+
+.role-icon {
+  font-size: 50rpx;
+  margin-bottom: 16rpx;
+}
+
+.role-name {
+  font-size: 28rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+  color: var(--text-main);
+}
+
+.role-desc {
+  font-size: 20rpx;
+  color: var(--text-sub);
+  line-height: 1.2;
+}
+
+.check-mark {
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 24rpx;
+}
+
+.admin-tools {
+  padding: 0;
+}
+
+.tool-row {
+  padding: 30rpx 40rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+  color: var(--text-main);
+}
+
+.tool-row:active {
+  background: rgba(0,0,0,0.02);
+}
+
+.tool-row.danger {
+  color: var(--danger-color);
+}
+
+.divider {
+  height: 1px;
+  background: rgba(0,0,0,0.05);
+  margin: 0 30rpx;
+}
+
+.arrow {
+  color: var(--text-sub);
+  font-weight: bold;
+}
+
+.footer-info {
+  text-align: center;
+  margin-top: 60rpx;
+  font-size: 24rpx;
+  color: var(--text-sub);
+  opacity: 0.6;
+}

@@ -1,35 +1,143 @@
-.container {
-  padding: 40rpx;
+.focus-container {
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+  /* Ensure it uses the new global background */
 }
 
-.card {
-  border: 4rpx solid #222;
-  border-radius: 24rpx;
-  padding: 32rpx;
-  margin-bottom: 32rpx;
-  background-color: #fff;
+/* Ambient Background Glow - Enhanced */
+.focus-container::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(98, 70, 234, 0.2), transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+  animation: breathe 8s infinite ease-in-out;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* 结束状态 */
+.finish-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  padding: 60rpx;
+}
+
+.finish-icon {
+  font-size: 140rpx;
+  margin-bottom: 48rpx;
+  animation: bounce 2s infinite ease-in-out;
+  filter: drop-shadow(0 20rpx 40rpx rgba(0,0,0,0.1));
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-30rpx); }
+}
+
+.finish-title {
+  font-size: 64rpx;
+  font-weight: 900;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 24rpx;
+}
+
+.finish-desc {
+  font-size: 34rpx;
+  color: var(--text-sub);
   text-align: center;
+  line-height: 1.6;
 }
 
-.item-title {
+.mt-40 {
+  margin-top: 80rpx;
+  width: 80%;
+}
+
+/* 专注状态 */
+.task-info-card {
+  width: 90%;
+  margin-top: 40rpx; /* Safe area handled by padding in container usually, but here fixed */
+  text-align: center;
+  padding: 40rpx;
+  z-index: 10;
+  border-radius: 48rpx;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10rpx 30rpx rgba(0,0,0,0.05);
+}
+
+.task-label {
+  font-size: 24rpx;
+  color: var(--text-sub);
+  margin-bottom: 16rpx;
+  background: rgba(255,255,255,0.5);
+  display: inline-block;
+  padding: 8rpx 24rpx;
+  border-radius: 30rpx;
+  letter-spacing: 2rpx;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+.task-title {
   font-size: 44rpx;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 12rpx;
+  line-height: 1.3;
+}
+
+.task-target {
+  font-size: 28rpx;
+  color: var(--primary-color);
   font-weight: 700;
 }
 
-.item-sub {
-  font-size: 32rpx;
-  color: #666;
-  margin-top: 12rpx;
+/* 计时器区域 */
+.timer-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  z-index: 5;
 }
 
-.timer-container {
+.timer-ring {
+  width: 600rpx;
+  height: 600rpx;
   position: relative;
-  width: 400rpx;
-  height: 400rpx;
-  margin: 40rpx auto;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  /* Optional: Neumorphic or Soft Glow behind the canvas */
+  box-shadow: 
+    0 0 80rpx rgba(98, 70, 234, 0.1),
+    inset 0 0 60rpx rgba(255, 255, 255, 0.8);
 }
 
 .progress-canvas {
@@ -40,64 +148,175 @@
   left: 0;
 }
 
-.timer-text {
+.timer-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1;
 }
 
-.timer-value {
-  font-size: 80rpx;
-  font-weight: 700;
-  color: #111;
-  line-height: 1;
+.timer-val {
+  font-size: 180rpx;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -8rpx;
+  background: linear-gradient(180deg, var(--text-main) 0%, #4a5568 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4rpx 0 rgba(255,255,255,0.5));
 }
 
 .timer-unit {
-  font-size: 28rpx;
-  color: #666;
-  margin-top: 10rpx;
+  font-size: 32rpx;
+  color: var(--text-sub);
+  margin-top: 24rpx;
+  font-weight: 600;
+  letter-spacing: 4rpx;
+  text-transform: uppercase;
 }
 
-.metrics {
+/* 指标行 */
+.metrics-row {
   display: flex;
+  width: 90%;
   justify-content: space-between;
-  margin-bottom: 32rpx;
+  margin-bottom: 40rpx;
+  gap: 24rpx;
+  z-index: 10;
 }
 
-.metric-box {
+.metric-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx 32rpx;
+  border-radius: 40rpx;
   flex: 1;
-  text-align: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
 }
 
-.metric-label {
-  font-size: 28rpx;
-  color: #555;
+.metric-icon {
+  font-size: 44rpx;
+  margin-right: 24rpx;
 }
 
-.metric-value {
+.metric-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-text .val {
   font-size: 40rpx;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text-main);
+}
+
+.metric-text .label {
+  font-size: 24rpx;
+  color: var(--text-sub);
+  margin-top: 4rpx;
+  font-weight: 600;
+}
+
+/* 操作区 */
+.action-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 80rpx;
+  z-index: 100;
+  /* background: linear-gradient(to top, rgba(242, 244, 246, 0.9) 0%, transparent 100%); */
+  /* Remove opaque background for cleaner look, let global bg show through */
+}
+
+.btn-main {
+  width: 72%;
+  height: 136rpx;
+  border-radius: 68rpx;
+  font-size: 40rpx;
+  font-weight: 800;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 24rpx 48rpx rgba(98, 70, 234, 0.35);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-main.start {
+  background: var(--primary-gradient);
+}
+
+.btn-main.pause {
+  background: var(--accent-color);
+  box-shadow: 0 24rpx 48rpx rgba(255, 137, 6, 0.35);
+}
+
+.btn-main:active {
+  transform: scale(0.95);
+  box-shadow: 0 10rpx 20rpx rgba(0,0,0,0.1);
+}
+
+.btn-icon {
+  margin-right: 24rpx;
+  font-size: 48rpx;
+}
+
+.sub-actions {
+  display: flex;
+  width: 85%;
+  justify-content: space-between;
+  margin-top: 48rpx;
+  gap: 32rpx;
+}
+
+.sub-btn {
+  flex: 1;
+  height: 112rpx;
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 700;
-  margin-top: 12rpx;
+  font-size: 32rpx;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  transition: all 0.2s;
+  box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.03);
 }
 
-.btn-start {
-  background-color: #0a7;
+.sub-btn:active {
+  transform: scale(0.96);
+  background: rgba(255, 255, 255, 0.85);
 }
 
-.btn-pause {
-  background-color: #f60;
+.sub-btn.finish {
+  color: var(--secondary-color);
 }
 
-.btn-finish {
-  background-color: #111;
+.sub-btn.skip {
+  color: var(--text-sub);
 }
 
-.btn-next {
-  background-color: #333;
-}
-
-.btn-end {
-  background-color: #555;
+.text-btn {
+  margin-top: 56rpx;
+  font-size: 28rpx;
+  color: var(--text-sub);
+  text-decoration: none;
+  opacity: 0.7;
+  font-weight: 600;
+  padding: 12rpx 24rpx;
+  background: rgba(255,255,255,0.3);
+  border-radius: 20rpx;
 }

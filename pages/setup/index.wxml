@@ -1,44 +1,120 @@
 <view class="container">
   <view class="header">
-    <view class="title">今日作业清单</view>
+    <view class="page-title">
+      <text>👋 嗨，准备开始吧！</text>
+    </view>
     <view class="streak-badge" wx:if="{{streak > 0}}">
       <text class="streak-icon">🔥</text>
       <text class="streak-text">连续 {{streak}} 天</text>
     </view>
   </view>
 
-  <view class="total-time" wx:if="{{tasks.length > 0}}">
-    <text>总预计时长：{{totalMinutes}} 分钟</text>
-  </view>
-
-  <view class="form">
+  <!-- 输入区域 -->
+  <view class="glass-card input-area">
     <view class="input-row">
-      <input class="input-box flex-1" placeholder="作业名称（≤20字）" maxlength="20" value="{{name}}" bindinput="onNameInput" />
-      <view class="icon-btn" bindtap="chooseImage">
-        <text>📸</text>
+      <input class="input-glass name-input" placeholder="输入作业名称（如：数学试卷）" maxlength="20" value="{{name}}" bindinput="onNameInput" placeholder-style="color: #999;" />
+      <view class="ai-btn" bindtap="chooseImage" hover-class="ai-btn-hover">
+        <text class="ai-icon">📸</text>
+      </view>
+      <view class="ai-btn ml-20" bindtap="showSmartImport" hover-class="ai-btn-hover" style="background: var(--secondary-gradient);">
+        <text class="ai-icon">✨</text>
       </view>
     </view>
-    <input class="input-box" placeholder="预计时长（5–120）" type="number" value="{{minutes}}" bindinput="onMinutesInput" />
-    <button class="big-btn {{!canAdd ? 'big-btn-disabled' : ''}}" bindtap="addTask" disabled="{{!canAdd}}" loading="{{isAnalyzing}}">
-      {{isAnalyzing ? '正在分析图片...' : '添加'}}
-    </button>
+    
+    <view class="input-row mt-30">
+      <view class="add-btn btn-primary {{!canAdd ? 'disabled' : ''}}" bindtap="addTask" style="width: 100%;">
+        <text wx:if="{{!isAnalyzing}}">＋ 添加任务</text>
+        <text wx:else>⏳ AI 智能分析中...</text>
+      </view>
+    </view>
   </view>
 
-  <view class="list">
-    <block wx:for="{{tasks}}" wx:key="id">
-      <view class="task-item">
-        <view class="task-info">
-          <view class="task-name">{{item.name}}</view>
-          <view class="task-sub">预计 {{item.expectedMinutes}} 分钟</view>
+  <!-- 任务列表 -->
+  <view class="task-list">
+    <view class="section-title" wx:if="{{tasks.length > 0}}">
+      <text>待完成清单 ({{tasks.length}})</text>
+      <view class="total-badge" wx:if="{{totalMinutes > 0}}">
+        <text>⏳ 共 {{totalMinutes}} 分钟</text>
+      </view>
+    </view>
+    
+    <block wx:if="{{tasks.length > 0}}">
+      <view class="glass-card task-card" wx:for="{{tasks}}" wx:key="id">
+        <view class="task-left">
+          <view class="task-index">{{index + 1}}</view>
+          <view class="task-content">
+            <input class="task-name-input" value="{{item.name}}" bindblur="onTaskNameChange" data-id="{{item.id}}" />
+            <view class="task-meta-edit">
+              <text>预计</text>
+              <input class="task-time-input" type="number" value="{{item.expectedMinutes}}" bindblur="onTaskTimeChange" data-id="{{item.id}}" />
+              <text>分钟</text>
+            </view>
+          </view>
         </view>
-        <view class="actions">
-          <view class="btn-small" bindtap="moveUp" data-index="{{index}}" wx:if="{{index > 0}}">↑</view>
-          <view class="btn-small" bindtap="moveDown" data-index="{{index}}" wx:if="{{index < tasks.length - 1}}">↓</view>
-          <view class="btn-delete" bindtap="removeTask" data-id="{{item.id}}">删除</view>
+        
+        <view class="task-actions">
+          <view class="action-btn icon-btn" bindtap="moveUp" data-index="{{index}}" wx:if="{{index > 0}}">↑</view>
+          <view class="action-btn icon-btn" bindtap="moveDown" data-index="{{index}}" wx:if="{{index < tasks.length - 1}}">↓</view>
+          <view class="action-btn delete" bindtap="removeTask" data-id="{{item.id}}">×</view>
         </view>
+      </view>
+    </block>
+
+    <!-- 空状态 -->
+    <block wx:else>
+      <view class="empty-state">
+        <view class="empty-icon">📝</view>
+        <view class="empty-text">还没有作业哦~</view>
+        <view class="empty-sub">手动添加，或点击 ✨ 智能导入</view>
       </view>
     </block>
   </view>
 
-  <button class="big-btn" style="margin-top: 40rpx;" bindtap="startFocus" disabled="{{tasks.length === 0}}">开始专注</button>
+  <!-- 底部按钮 -->
+  <view class="footer-spacer"></view>
+  <view class="footer" wx:if="{{tasks.length > 0}}">
+    <button class="btn btn-primary btn-lg" bindtap="startFocus">🚀 开始专注挑战</button>
+  </view>
+
+  <!-- 智能导入弹窗 -->
+  <view class="modal-mask {{showImportModal ? 'show' : ''}}" bindtap="hideSmartImport"></view>
+  <view class="bottom-sheet {{showImportModal ? 'show' : ''}}">
+    
+    <!-- 正常输入状态 -->
+    <block wx:if="{{!isAnalyzing}}">
+      <view class="sheet-header">
+        <text class="sheet-title">✨ 智能文本导入</text>
+        <view class="close-btn" bindtap="hideSmartImport">×</view>
+      </view>
+      <view class="sheet-content">
+        <textarea 
+          class="import-textarea input-glass" 
+          placeholder="请粘贴作业文本（例如：数学第5页第3题，英语背诵课文...）" 
+          value="{{importText}}" 
+          bindinput="onImportInput"
+          maxlength="2000"
+          fixed="true"
+        ></textarea>
+        
+        <view class="import-actions">
+          <button class="btn btn-secondary btn-md" bindtap="pasteFromClipboard" style="flex: 1; margin-right: 20rpx;">
+            <text>📋 粘贴</text>
+          </button>
+          <button class="btn btn-primary btn-md" bindtap="confirmImport" disabled="{{!importText}}" style="flex: 2;">
+            <text>🪄 AI 识别生成</text>
+          </button>
+        </view>
+      </view>
+    </block>
+
+    <!-- AI 分析加载状态 -->
+    <block wx:else>
+      <view class="loading-container">
+        <view class="loading-spinner"></view>
+        <view class="loading-quote">“{{motivationalQuote}}”</view>
+        <view class="loading-sub">AI 正在拆解你的任务...</view>
+      </view>
+    </block>
+
+  </view>
 </view>

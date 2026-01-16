@@ -1,44 +1,99 @@
 <view class="container">
-  <view class="title">家长报告</view>
-  <view class="date-text">{{date}}</view>
-
-  <view class="metrics-card">
-    <view class="metric-row">
-      <view class="metric-label">今日总专注时长</view>
-      <view class="metric-value">{{totals.minutes}} 分钟</view>
+  <view class="header">
+    <view class="page-title">
+      <text>📊 成长报告</text>
     </view>
-    <view class="metric-row">
-      <view class="metric-label">今日中断次数</view>
-      <view class="metric-value">{{totals.interrupts}}</view>
-    </view>
-    <view class="metric-row">
-      <view class="metric-label">作业完成率</view>
-      <view class="metric-value">{{totals.completion}}</view>
-    </view>
+    <view class="date-display">{{date}}</view>
   </view>
 
-  <block wx:if="{{week}}">
-    <view class="week-card">
-      <view class="week-title">按周汇总（{{week.startDate}}–{{week.endDate}}）</view>
-      <view class="metric-row">
-        <view class="metric-label">平均专注时长</view>
-        <view class="metric-value">{{week.averageFocusMinutes}} 分钟</view>
-      </view>
-      <view class="metric-row">
-        <view class="metric-label">平均中断次数</view>
-        <view class="metric-value">{{week.averageInterruptions}}</view>
-      </view>
-    </view>
-  </block>
-
-  <view class="subtitle">查看其他日期</view>
-  <scroll-view scroll-x="true" class="day-scroll">
-    <view class="day-list">
+  <!-- 日期选择 -->
+  <scroll-view scroll-x="true" class="date-scroll" enable-flex>
+    <view class="date-list">
       <block wx:for="{{days}}" wx:key="*this">
-        <view class="day-chip {{item === date ? 'day-chip-active' : ''}}" bindtap="changeDate" data-date="{{item}}">
-          <text class="day-text {{item === date ? 'day-text-active' : ''}}">{{item}}</text>
+        <view class="date-chip {{item === date ? 'active' : ''}}" bindtap="changeDate" data-date="{{item}}">
+          <text class="chip-text">{{item}}</text>
         </view>
       </block>
     </view>
   </scroll-view>
+
+  <!-- 核心数据看板 -->
+  <view class="dashboard-grid">
+    <view class="glass-card stat-card primary">
+      <view class="stat-icon">⏱</view>
+      <view class="stat-val">{{totals.minutes}}</view>
+      <view class="stat-label">专注(分)</view>
+    </view>
+    <view class="glass-card stat-card">
+      <view class="stat-icon">✅</view>
+      <view class="stat-val">{{totals.completion}}</view>
+      <view class="stat-label">完成/总数</view>
+    </view>
+    <view class="glass-card stat-card">
+      <view class="stat-icon">⚡️</view>
+      <view class="stat-val">{{totals.interrupts}}</view>
+      <view class="stat-label">中断</view>
+    </view>
+  </view>
+
+  <!-- 任务明细 -->
+  <view class="section-header">
+    <text class="section-title">今日任务明细</text>
+  </view>
+
+  <block wx:if="{{detailedTasks.length > 0}}">
+    <view class="detail-list">
+      <view class="glass-card detail-card" wx:for="{{detailedTasks}}" wx:key="id">
+        <view class="detail-status {{item.completed ? 'done' : ''}}">
+          {{item.completed ? '✓' : '○'}}
+        </view>
+        <view class="detail-content">
+          <view class="detail-name {{item.completed ? 'text-done' : ''}}">{{item.name}}</view>
+          <view class="detail-meta">
+            <text>实际专注 {{item.actualMinutes}} 分钟</text>
+            <text class="divider">|</text>
+            <text>中断 {{item.interruptions}} 次</text>
+          </view>
+        </view>
+        <view class="detail-badge" wx:if="{{item.actualMinutes > item.expectedMinutes}}">超时</view>
+        <view class="detail-badge success" wx:elif="{{item.completed}}">完美</view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="empty-report">
+      <view class="empty-icon">📭</view>
+      <view class="empty-text">该日无任务记录</view>
+    </view>
+  </block>
+
+  <!-- 周报概览 -->
+  <block wx:if="{{week}}">
+    <view class="glass-card week-summary">
+      <view class="week-header">
+        <text class="week-title">本周概览</text>
+        <text class="week-range">{{week.startDate}} 至 {{week.endDate}}</text>
+      </view>
+      <view class="week-stats">
+        <view class="week-stat-item">
+          <view class="val">{{week.averageFocusMinutes}}</view>
+          <view class="label">平均时长</view>
+        </view>
+        <view class="week-divider"></view>
+        <view class="week-stat-item">
+          <view class="val">{{week.averageInterruptions}}</view>
+          <view class="label">平均中断</view>
+        </view>
+      </view>
+
+      <view class="ai-comment-section">
+        <view class="ai-header" bindtap="getAiComment">
+          <text>🤖 AI 老师点评</text>
+          <text class="ai-btn-text" wx:if="{{!aiComment && !loadingAi}}">点击生成</text>
+        </view>
+        <view class="ai-content" wx:if="{{loadingAi}}">正在思考中...</view>
+        <view class="ai-content" wx:elif="{{aiComment}}">{{aiComment}}</view>
+      </view>
+    </view>
+  </block>
 </view>

@@ -2,37 +2,45 @@
   "pages": [
     "pages/setup/index",
     "pages/focus/index",
-    "pages/report/index"
+    "pages/report/index",
+    "pages/profile/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "专注作业",
-    "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "Focus Homework",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f8f9fa"
   },
   "tabBar": {
-    "color": "#111111",
-    "selectedColor": "#000000",
-    "backgroundColor": "#ffffff",
-    "borderStyle": "black",
+    "color": "#94a1b2",
+    "selectedColor": "#6246ea",
+    "backgroundColor": "#rgba(255, 255, 255, 0.9)",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/setup/index",
-        "text": "作业设定",
-        "iconPath": "assets/icon.png",
-        "selectedIconPath": "assets/icon.png"
+        "text": "任务",
+        "iconPath": "assets/tabbar/home.png",
+        "selectedIconPath": "assets/tabbar/home-active.png"
       },
       {
         "pagePath": "pages/focus/index",
-        "text": "专注执行",
-        "iconPath": "assets/icon.png",
-        "selectedIconPath": "assets/icon.png"
+        "text": "专注",
+        "iconPath": "assets/tabbar/focus.png",
+        "selectedIconPath": "assets/tabbar/focus-active.png"
       },
       {
         "pagePath": "pages/report/index",
-        "text": "家长报告",
-        "iconPath": "assets/icon.png",
-        "selectedIconPath": "assets/icon.png"
+        "text": "报告",
+        "iconPath": "assets/tabbar/report.png",
+        "selectedIconPath": "assets/tabbar/report-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "assets/tabbar/profile.png",
+        "selectedIconPath": "assets/tabbar/profile-active.png"
       }
     ]
   },

@@ -1,48 +1,162 @@
-/**app.wxss**/
+/** app.wxss **/
+page {
+  /* Pro Max Palette: Luminous Aurora 2.0 */
+  /* Vivid, neon-like colors for dark/glass aesthetic */
+  --primary-color: #6246ea;      /* Deep Violet */
+  --primary-light: #9d8df1;
+  --primary-gradient: linear-gradient(135deg, #6246ea 0%, #7f5af0 100%);
+  
+  --secondary-color: #2cb67d;    /* Neon Green */
+  --secondary-gradient: linear-gradient(135deg, #2cb67d 0%, #2ef29b 100%);
+  
+  --accent-color: #ff8906;       /* Hot Orange */
+  --danger-color: #ef4565;
+  
+  --text-main: #2b2c34;          /* Soft Black */
+  --text-sub: #94a1b2;           /* Cool Gray */
+  --text-on-dark: #fffffe;
+
+  /* Background System: Aurora Mesh */
+  --bg-base: #f8f9fa;
+  /* Complex mesh gradient for that "Apple Event" feel */
+  --bg-gradient: 
+    radial-gradient(at 0% 0%, rgba(98, 70, 234, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(44, 182, 125, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(255, 137, 6, 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(239, 69, 101, 0.1) 0px, transparent 50%),
+    #f8f9fa;
+
+  /* Glassmorphism System 3.0 */
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: 1px solid rgba(255, 255, 255, 0.9);
+  --glass-blur: blur(24px);
+  --glass-shadow: 
+    0 8rpx 32rpx -4rpx rgba(31, 38, 135, 0.07),
+    0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+
+  /* Typography */
+  font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: var(--text-main);
+  background: var(--bg-base);
+  box-sizing: border-box;
+}
+
 .container {
-  height: 100%;
+  padding: 32rpx;
+  padding-top: 40rpx;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 200rpx 0;
-  box-sizing: border-box;
-} 
-
-page {
-  background-color: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
-    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
-    sans-serif;
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
 }
 
-/* 极简通用组件样式 */
-.title {
-  font-size: 56rpx;
-  font-weight: 600;
-  text-align: center;
+/* Pro Glass Card */
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 40rpx; /* Softer corners */
+  border: var(--card-border);
+  box-shadow: var(--glass-shadow);
+  padding: 40rpx;
   margin-bottom: 32rpx;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
 
-.big-btn {
-  background-color: #111;
-  color: #fff;
-  font-size: 40rpx;
+.glass-card:active {
+  transform: scale(0.99);
+}
+
+/* Typography System */
+.page-title {
+  font-size: 64rpx; /* Larger */
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 16rpx;
+  line-height: 1.1;
+  letter-spacing: -2rpx;
+  /* Gradient Text */
+  background: linear-gradient(135deg, #2b2c34 30%, #6246ea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+}
+
+.page-subtitle {
+  font-size: 32rpx;
+  color: var(--text-sub);
+  margin-bottom: 48rpx;
+  font-weight: 500;
+}
+
+/* Modern Button System */
+.btn {
+  border-radius: 32rpx;
   font-weight: 700;
-  padding: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy */
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn-primary {
+  background: var(--primary-gradient);
+  color: white;
+  box-shadow: 0 12rpx 30rpx -8rpx rgba(98, 70, 234, 0.5);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text-main);
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.05);
+  border: 1px solid rgba(255,255,255,1);
+}
+
+/* Inputs */
+.input-glass {
+  background: rgba(255, 255, 255, 0.5);
+  border: 2rpx solid transparent;
   border-radius: 28rpx;
-  text-align: center;
-  margin-bottom: 20rpx;
+  padding: 32rpx 36rpx;
+  font-size: 32rpx;
+  color: var(--text-main);
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2rpx 4rpx rgba(0,0,0,0.02);
 }
 
-.big-btn-disabled {
-  background-color: #999;
+.input-glass:focus {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 8rpx rgba(98, 70, 234, 0.15);
+  transform: translateY(-2rpx);
 }
 
-.input-box {
-  border: 4rpx solid #222;
-  border-radius: 24rpx;
-  padding: 28rpx;
-  font-size: 36rpx;
-  margin-bottom: 20rpx;
+/* Utility Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20rpx); }
+  to { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.flex-row { display: flex; align-items: center; }
+.flex-col { display: flex; flex-direction: column; }
+.flex-between { justify-content: space-between; }
+.flex-center { justify-content: center; }
+.spacer { flex: 1; }

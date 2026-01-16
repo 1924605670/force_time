@@ -1,0 +1,51 @@
+<view class="container">
+  <view class="header">
+    <view class="page-title">我的</view>
+    <view class="role-badge">{{roles[0].name}}</view>
+  </view>
+
+  <view class="glass-card profile-card">
+    <view class="avatar">
+      <open-data type="userAvatarUrl"></open-data>
+    </view>
+    <view class="info">
+      <open-data type="userNickName" class="nickname"></open-data>
+      <view class="current-role">当前身份: {{role === 'student' ? '学生' : (role === 'parent' ? '家长' : '管理员')}}</view>
+    </view>
+  </view>
+
+  <view class="section-title">身份切换</view>
+  <view class="role-grid">
+    <view 
+      class="glass-card role-item {{role === item.id ? 'active' : ''}}" 
+      wx:for="{{roles}}" 
+      wx:key="id" 
+      bindtap="switchRole" 
+      data-role="{{item.id}}"
+    >
+      <view class="role-icon">{{item.icon}}</view>
+      <view class="role-name">{{item.name}}</view>
+      <view class="role-desc">{{item.desc}}</view>
+      <view class="check-mark" wx:if="{{role === item.id}}">✓</view>
+    </view>
+  </view>
+
+  <block wx:if="{{role === 'admin'}}">
+    <view class="section-title">管理工具</view>
+    <view class="glass-card admin-tools">
+      <view class="tool-row" bindtap="exportData">
+        <text>📤 导出所有数据 (SQLite)</text>
+        <text class="arrow">></text>
+      </view>
+      <view class="divider"></view>
+      <view class="tool-row danger" bindtap="clearStorage">
+        <text>🗑 清空本地缓存</text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+  </block>
+
+  <view class="footer-info">
+    <text>Focus Homework v1.0.0</text>
+  </view>
+</view>
