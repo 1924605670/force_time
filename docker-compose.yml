@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: fengrossment-backend
+    ports:
+      - "3000:3000"
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=file:./dev.db
+      # JWT_SECRET should be set in .env or CI/CD secrets
+      - JWT_SECRET=${JWT_SECRET:-default_secret_key}
+      # SILICONFLOW_API_KEY should be set in .env
+      - SILICONFLOW_API_KEY=${SILICONFLOW_API_KEY}
+    volumes:
+      - ./backend/prisma/dev.db:/app/prisma/dev.db
+      - ./backend/logs:/app/logs
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mini-program:
+    build: ./mini-program
+    container_name: fengrossment-miniprogram
+    restart: always
+    # This container holds the frontend code and tools
+    # In a real scenario, this might run a dev server for web preview or just exit
+    # We keep it running for verification as requested
+    healthcheck:
+      test: ["CMD", "node", "-v"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

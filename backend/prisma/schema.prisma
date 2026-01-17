@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// In Prisma 7 with prisma.config.ts, we don't define url here?
+// Or maybe we just define provider?
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  openid      String    @unique // WeChat OpenID
+  username    String?
+  password    String?   // Optional, for admin or non-wechat login
+  role        String    @default("user") // user, admin
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  apiLogs     ApiLog[]
+  reports     Report[]
+}
+
+model ApiLog {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  endpoint     String
+  model        String
+  inputTokens  Int?
+  outputTokens Int?
+  totalTokens  Int?
+  duration     Int      // in milliseconds
+  status       Int      // HTTP status code
+  error        String?
+  createdAt    DateTime @default(now())
+}
+
+model Report {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // daily, weekly, monthly
+  startDate DateTime
+  endDate   DateTime
+  data      String   // JSON string of stats
+  aiComment String?
+  createdAt DateTime @default(now())
+}

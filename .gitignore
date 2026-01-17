@@ -1,27 +1,13 @@
-# Dependencies
 node_modules/
-miniprogram_npm/
-
-# WeChat Mini Program
-project.private.config.json
-sitemap.json
-
-# macOS & System
 .DS_Store
-._*
-.idea/
-.vscode/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Trae
-.trae/
-
-# Expo (if applicable, kept for reference)
-.expo/
 dist/
-web-build/
+coverage/
+.env
+*.log
+backend/dev.db
+backend/node_modules
+mini-program/node_modules
+mini-program/miniprogram_npm
 
+._*
+*/._*
