@@ -12,11 +12,11 @@
 ## Docker Deployment
 1. Build and Run:
    ```bash
-   docker-compose up -d --build
+   docker compose up -d --build
    ```
 2. Check logs:
    ```bash
-   docker-compose logs -f
+   docker compose logs -f
    ```
 
 ## Database

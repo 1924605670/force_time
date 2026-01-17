@@ -15,17 +15,17 @@ git pull origin main
 
 # 2. Rebuild and restart containers
 echo "[$TIMESTAMP] Building and starting services..." | tee -a $LOG_FILE
-docker-compose up -d --build
+docker compose up -d --build
 
 # 3. Verify services
 echo "[$TIMESTAMP] Verifying service health..." | tee -a $LOG_FILE
 sleep 5 # Wait for services to initialize
 
-if docker-compose ps | grep -q "Up"; then
+if docker compose ps | grep -q "Up"; then
     echo "[$TIMESTAMP] Services are up and running!" | tee -a $LOG_FILE
 else
     echo "[$TIMESTAMP] Error: Some services failed to start." | tee -a $LOG_FILE
-    docker-compose logs --tail=50
+    docker compose logs --tail=50
     exit 1
 fi
 
